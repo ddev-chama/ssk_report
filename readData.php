@@ -27,26 +27,27 @@ Class Report {
         $store = array();
 
         // query
-        $sql = 'SELECT * FROM public."order" x inner join public."user" u on x."userId" = u.id ';
-        $sql .= " WHERE status NOT IN ('CANCEL') LIMIT 50";
+        $sql2 = 'SELECT "orderNumber",status,discount,"firstName","lastName",u."phoneNumber" ,x."updatedAt",u."updatedAt" FROM public."order" x inner join public."user" u on x."userId" = u.id ';
+        $sql2 .= " WHERE status NOT IN ('CANCEL')";
+        $sql2 .= ' order by x."createdAt" desc  limit 50';
         // where status NOT IN ("CANCEL") LIMIT 50
-        $result = pg_query( $this->conn, $sql);
+        $result = pg_query( $this->conn, $sql2);
         if (!$result) {  
-            echo "An error occurred.\n"."<br>".$sql;  
+            echo "An error occurred.\n"."<br>".$sql2;  
             exit;  
         }
-
         //Find Product_gift and pass to storeArray
         while ($row = pg_fetch_assoc($result)) {  
-            
-            echo "<pre>\n";  
             
             // discout object 
             $disc = json_decode($row["discount"],false);
             $order_num = json_decode($row["orderNumber"]);
-            $name = json_decode($row["firstName"]);
-            $tel = json_decode($row["phoneNumber"]);
+            $fname = $row["firstName"];
+            $lname = $row["lastName"];
+            $tel = $row["phoneNumber"];
+            $status = $row["status"];
 
+            // counter check data 
             $count = count((array)$disc)-1;
 
             // split_value
@@ -57,8 +58,10 @@ Class Report {
                     if(isset($data["PRODUCT"])){
                         if(count($data["PRODUCT"])>0){
                             $item["orderNumber"] = $order_num;
-                            $item["firstName"] = $name;
-                            $item["orderNumber"] = $tel;
+                            $item["Status"] = $status;
+                            $item["firstName"] = $fname;
+                            $item["lastName"] = $lname;
+                            $item["phoneNumber"] = $tel;
                             $item["sku"] = $data["PRODUCT"][0]->sku->sku;
                             $item["product_name"]  = $data["PRODUCT"][0]->sku->product->displayName;
                             $item["createdAt"]  = $data["PRODUCT"][0]->sku->createdAt;
@@ -71,6 +74,7 @@ Class Report {
             }
             
         }
-        print_r($store);            
+        return $store;            
     }
+
 }
