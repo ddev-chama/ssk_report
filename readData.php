@@ -38,7 +38,7 @@ Class Report {
 
         // query
         $sql2 = 'SELECT "orderNumber",status,discount,"firstName","lastName",u."phoneNumber",x."updatedAt",x."createdAt" FROM public."order" x inner join public."user" u on x."userId" = u.id ';
-        $sql2 .= " WHERE status NOT IN ('CANCEL','PREPARE_SHIPPING_FAIL','PREPARE_SHIPPING')";
+        $sql2 .= " WHERE status NOT IN ('CANCEL','PREPARE_SHIPPING_FAIL')";
         $sql2 .= ' order by x."orderNumber" desc ';
         // where status NOT IN ("CANCEL") LIMIT 50
         $result = pg_query( $this->conn, $sql2);
