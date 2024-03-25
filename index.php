@@ -28,7 +28,6 @@ $data = $report->read_Product();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
-    <script src="main.js"></script>
 
 </head>
 <body>
@@ -45,15 +44,15 @@ $data = $report->read_Product();
     <table class="table table-striped table-bordered report">
         <thead>
             <tr>
-                <th scope="col">orderNumber</th>
+                <th scope="col">OrderNumber</th>
                 <th scope="col">Status</th>
-                <th scope="col">firstName</th>
-                <th scope="col">lastName</th>
-                <th scope="col">phoneNumber</th>
-                <th scope="col">sku</th>
-                <th scope="col">product_name</th>
-                <th scope="col">createdAt</th>
-                <th scope="col">updatedAt</th>
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">PhoneNumber</th>
+                <th scope="col">Sku</th>
+                <th scope="col">Product_name</th>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">UpdatedAt</th>
             </tr>
         </thead>
         <tbody>
@@ -81,3 +80,4 @@ $data = $report->read_Product();
     </table>
 </body>
 </html>
+<script src="./main.js"></script>

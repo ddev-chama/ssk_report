@@ -1,12 +1,12 @@
-//setup dataTable
-new DataTable('.report',{
-    order: [[0, 'desc']],
-    layout: {
-    topStart: {
-        buttons: ['copy', 'csv', 'excel', 'print']
-    }
-}
-});
+// //setup dataTable
+// new DataTable('.report',{
+//     order: [[8, 'desc']],
+//     layout: {
+//     topStart: {
+//         buttons: ['copy', 'csv', 'excel', 'print']
+//     }
+// }
+// });
 
 //Session Date filter
 let minDate, maxDate;
@@ -15,7 +15,7 @@ let minDate, maxDate;
 DataTable.ext.search.push(function (settings, data, dataIndex) {
     let min = minDate.val();
     let max = maxDate.val();
-    let date = new Date(data[8]);
+    let date = new Date(data[7]);
 
     if (
         (min === null && max === null) ||
@@ -37,7 +37,14 @@ maxDate = new DateTime('#max', {
 });
 
 // DataTables initialisation
-let table = new DataTable('.report');
+let table = new DataTable('.report',{
+    order: [[7, 'desc']],
+    layout: {
+    topStart: {
+        buttons: ['copy', 'csv', 'excel', 'print']
+    }
+}
+});
 
 // Refilter the table
 document.querySelectorAll('#min, #max').forEach((el) => {
