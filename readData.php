@@ -1,8 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
-include("./connect_db.php");   
 
 Class Report {
     protected $conn;
@@ -27,9 +24,9 @@ Class Report {
         $store = array();
 
         // query
-        $sql2 = 'SELECT "orderNumber",status,discount,"firstName","lastName",u."phoneNumber" ,x."updatedAt",u."updatedAt" FROM public."order" x inner join public."user" u on x."userId" = u.id ';
-        $sql2 .= " WHERE status NOT IN ('CANCEL')";
-        $sql2 .= ' order by x."createdAt" desc  limit 50';
+        $sql2 = 'SELECT "orderNumber",status,discount,"firstName","lastName",u."phoneNumber" ,x."createdAt",x."updatedAt" FROM public."order" x inner join public."user" u on x."userId" = u.id ';
+        $sql2 .= " WHERE status NOT IN ('CANCEL','PREPARE_SHIPPING_FAIL')";
+        $sql2 .= ' order by x."orderNumber" desc ';
         // where status NOT IN ("CANCEL") LIMIT 50
         $result = pg_query( $this->conn, $sql2);
         if (!$result) {  
@@ -46,6 +43,9 @@ Class Report {
             $lname = $row["lastName"];
             $tel = $row["phoneNumber"];
             $status = $row["status"];
+            $createdAt = $row["createdAt"];
+            $updatedAt = $row["updatedAt"];
+
 
             // counter check data 
             $count = count((array)$disc)-1;
@@ -64,8 +64,8 @@ Class Report {
                             $item["phoneNumber"] = $tel;
                             $item["sku"] = $data["PRODUCT"][0]->sku->sku;
                             $item["product_name"]  = $data["PRODUCT"][0]->sku->product->displayName;
-                            $item["createdAt"]  = $data["PRODUCT"][0]->sku->createdAt;
-                            $item["updatedAt"]  = $data["PRODUCT"][0]->sku->updatedAt;
+                            $item["createdAt"]  = $createdAt ;
+                            $item["updatedAt"]  = $updatedAt ;
                             
                             array_push($store,$item);
                         }
