@@ -6,6 +6,7 @@ Class Report {
 
     function __construct()
     {
+
         function exception_error_handler($errno, $errstr, $errfile, $errline ) {
             throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
         }
@@ -17,6 +18,19 @@ Class Report {
             Echo $e->getMessage();
         }
     }    
+
+    function DateThai($strDate)
+	{
+		$strYear = date("Y",strtotime($strDate))+543;
+		$strMonth= date("n",strtotime($strDate));
+		$strDay= date("j",strtotime($strDate));
+		$strHour= date("H",strtotime($strDate));
+		$strMinute= date("i",strtotime($strDate));
+		$strSeconds= date("s",strtotime($strDate));
+		$strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+		$strMonthThai=$strMonthCut[$strMonth];
+		return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
+	}
     
     function read_Product(){
 
@@ -24,7 +38,7 @@ Class Report {
 
         // query
         $sql2 = 'SELECT "orderNumber",status,discount,"firstName","lastName",u."phoneNumber",x."updatedAt",x."createdAt" FROM public."order" x inner join public."user" u on x."userId" = u.id ';
-        $sql2 .= " WHERE status NOT IN ('CANCEL')";
+        $sql2 .= " WHERE status NOT IN ('CANCEL','PREPARE_SHIPPING_FAIL','PREPARE_SHIPPING')";
         $sql2 .= ' order by x."orderNumber" desc ';
         // where status NOT IN ("CANCEL") LIMIT 50
         $result = pg_query( $this->conn, $sql2);
@@ -63,7 +77,6 @@ Class Report {
                             $item["product_name"]  = $data["PRODUCT"][0]->sku->product->displayName;
                             $item["createdAt"]  = $createdAt;
                             $item["updatedAt"]  = $updatedAt;
-                            
                             array_push($store,$item);
                         }
                     }
