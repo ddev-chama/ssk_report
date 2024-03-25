@@ -1,12 +1,3 @@
-// //setup dataTable
-// new DataTable('.report',{
-//     order: [[8, 'desc']],
-//     layout: {
-//     topStart: {
-//         buttons: ['copy', 'csv', 'excel', 'print']
-//     }
-// }
-// });
 
 //Session Date filter
 let minDate, maxDate;
