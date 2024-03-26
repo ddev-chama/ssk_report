@@ -1,0 +1,24 @@
+version: '1.0'
+services:
+  # PHP-FPM Service
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+    # Mounts the local 'app' directory to the container's Nginx root
+      - ./app:/var/www/html  
+      # - ./ssk/php-extension/php-development.ini:/usr/local/etc/php/php.ini-development
+      # - ./ssk/php-extension/php-production.ini:/usr/local/etc/php/php.ini-production
+  # NGINX Service
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+    # Mountlocal 'app' directory to the Nginx root
+      - ./app:/var/www/html 
+    ports:
+      - "8080:80"
+    depends_on:
+      - php-fpm  # Depends on the PHP-FPM service
