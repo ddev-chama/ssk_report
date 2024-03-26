@@ -32,7 +32,7 @@ let table = new DataTable('.report',{
     order: [[7, 'desc']],
     layout: {
     topStart: {
-        buttons: ['copy', 'csv', 'excel', 'print']
+        buttons: ['pageLength','copy', 'csv', 'excel', 'print']
     }
 }
 });
